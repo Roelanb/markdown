@@ -5,3 +5,45 @@
 *.dylib
 *.exe
 mdedit-gtk
+markdown-editor
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Go workspace file
+go.work
+
+# IDE specific files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS specific files
+.DS_Store
+Thumbs.db
+
+# CMake build files
+build/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.cmake
+!CMakeLists.txt
+
+# Qt build files
+*.autosave
+moc_*.cpp
+ui_*.h
+qrc_*.cpp
+*.qm
+*.user
+*.user.*
+
+# Compiled binaries
+MarkdownEditor

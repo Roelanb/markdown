@@ -1,13 +1,16 @@
-Write a markdown editor in C.
+Write a markdown editor in C++ using Qt.
 
-Use GTK for the UI.
+The app should work on Linux, Windows and macOS.
+Add build instructions for Linux, Windows and macOS.
 
-Features:
+
+## Features:
 - Fast editing
 - Syntax highlighting
 - Live preview
 
 
+Add a file browser to the left of the editor. The file browser should show the files in the current directory and its subdirectories.
 
 Make the live preview scroll together with the editor.
 
@@ -56,3 +59,11 @@ Implement syntax highlighting for json, xml, html, css, js, c#, c, c++, java, py
 
 Implment emoji support
 https://gist.github.com/rxaviers/7360908
+
+
+Add a possibility to open  a folder
+
+Opening a folder does not show the files.
+
+
+Add the possibility to use YAML front matter.

@@ -1,0 +1,30 @@
+#ifndef PREVIEWWIDGET_H
+#define PREVIEWWIDGET_H
+
+#include <QWidget>
+#include <QWebEngineView>
+
+class PreviewWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
+    explicit PreviewWidget(QWidget *parent = nullptr);
+    ~PreviewWidget();
+
+    void updatePreview(const QString &markdown);
+    void scrollToPercentage(double percentage);
+
+private:
+    QString markdownToHtml(const QString &markdown);
+    QString getStyleSheet();
+    QString processEmojis(const QString &text);
+    QString processCodeBlocks(const QString &text);
+    QString processTables(const QString &text);
+    QString convertTableToHtml(const QStringList &tableLines);
+    QString processYamlFrontMatter(const QString &text);
+
+    QWebEngineView *webView;
+};
+
+#endif // PREVIEWWIDGET_H
