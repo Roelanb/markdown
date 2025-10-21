@@ -1,0 +1,7 @@
+*.o
+*.obj
+*.so
+*.dll
+*.dylib
+*.exe
+mdedit-gtk
