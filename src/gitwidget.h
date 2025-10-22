@@ -10,6 +10,8 @@
 #include <QProcess>
 #include <QString>
 #include <QVBoxLayout>
+#include <QTreeWidget>
+#include <QTimer>
 
 class GitWidget : public QWidget
 {
@@ -22,14 +24,19 @@ public:
     void setWorkingDirectory(const QString &path);
 
 private slots:
-    void runGitStatus();
-    void runGitDiff();
-    void runGitAdd();
-    void runGitCommit();
-    void runGitPush();
-    void runGitPull();
+    void refreshStatus();
+    void stageFile(QTreeWidgetItem *item);
+    void unstageFile(QTreeWidgetItem *item);
+    void stageAll();
+    void unstageAll();
+    void commitChanges();
+    void pushChanges();
+    void pullChanges();
+    void syncChanges();
+    void onItemDoubleClicked(QTreeWidgetItem *item, int column);
     void onProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
     void onProcessError(QProcess::ProcessError error);
+    void autoRefresh();
 
 private:
     void setupUI();
@@ -39,15 +46,17 @@ private:
 
     // UI Components
     QLabel *workingDirLabel;
-    QTextEdit *outputDisplay;
-    QLineEdit *commitMessageEdit;
-    QListWidget *fileListWidget;
-    QPushButton *statusButton;
-    QPushButton *diffButton;
-    QPushButton *addButton;
+    QTextEdit *commitMessageEdit;
     QPushButton *commitButton;
-    QPushButton *pushButton;
+    QPushButton *refreshButton;
     QPushButton *pullButton;
+    QPushButton *pushButton;
+    QPushButton *syncButton;
+    QTreeWidget *changesTree;
+    QTreeWidget *stagedTree;
+    QTreeWidgetItem *changesRoot;
+    QTreeWidgetItem *stagedRoot;
+    QTimer *autoRefreshTimer;
 
     // Git state
     QString workingDirectory;

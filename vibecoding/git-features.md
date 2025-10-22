@@ -1,36 +1,78 @@
-# Git Features - IMPLEMENTED ✅
+# Git Features - IMPLEMENTED ✅ (VS Code Style)
 
-All git features have been successfully implemented in the GitWidget component:
+The GitWidget has been redesigned to work exactly like VS Code's Source Control panel:
 
-- ✅ git status - Shows changed files in a list widget
-- ✅ git diff - Displays file differences (all files or selected files)
-- ✅ git add - Stages selected files for commit
-- ✅ git commit - Commits staged changes with a message
-- ✅ git push - Pushes commits to remote repository
-- ✅ git pull - Pulls changes from remote repository
+## Features
 
-## Usage
+- ✅ **Auto-refresh** - Automatically updates every 2 seconds
+- ✅ **Two-section layout** - Separate "Changes" and "Staged Changes" sections
+- ✅ **Double-click staging** - Double-click files to stage/unstage
+- ✅ **Stage/Unstage All** - Buttons to stage or unstage all files at once
+- ✅ **Commit message** - Multi-line text box at the top (like VS Code)
+- ✅ **Quick actions** - Commit, Refresh, Pull, Push buttons
+- ✅ **File status indicators** - Shows M (Modified), A (Added), D (Deleted), U (Untracked)
+- ✅ **Clean interface** - No verbose output, just the essentials
 
-1. Open the Git panel using **Ctrl+G** or via **View → Git Panel**
-2. The panel will automatically detect the git repository
-3. Click **Status** to see changed files
-4. Select files from the list and click **Add Selected** to stage them
-5. Enter a commit message and click **Commit**
-6. Use **Push** and **Pull** to sync with remote repository
-7. Use **Diff** to view changes (works on selected files or all files)
+## Usage (Just Like VS Code!)
+
+1. **Open the panel**: Press **Ctrl+G** or **View → Git Panel**
+2. **Auto-detection**: Repository is automatically detected
+3. **View changes**: Files appear in "Changes" section (unstaged)
+4. **Stage files**: 
+   - Double-click a file to stage it
+   - Or click "+ Stage All" to stage everything
+5. **Unstage files**:
+   - Double-click a staged file to unstage it
+   - Or click "- Unstage All" to unstage everything
+6. **Commit**:
+   - Type your commit message in the text box at the top
+   - Click "✓ Commit" button (or press Ctrl+Enter)
+7. **Sync with remote**:
+   - Click "↓ Pull" to pull changes
+   - Click "↑ Push" to push commits
+   - Click "↻" to manually refresh
 
 ## Implementation Details
 
 - **Location**: `src/gitwidget.h` and `src/gitwidget.cpp`
 - **Integration**: Added to MainWindow as a toggleable side panel
 - **UI Components**:
-  - File list widget with multi-selection
-  - Commit message input field
-  - Command buttons (Status, Diff, Add, Commit, Push, Pull)
-  - Output display showing command results
-- **Features**:
-  - Automatic git repository detection
-  - Real-time command output
-  - Error handling and user feedback
-  - Multi-file selection for staging
-  - Keyboard shortcut (Ctrl+G) for quick access
+  - **QTreeWidget** for Changes (unstaged files)
+  - **QTreeWidget** for Staged Changes
+  - **QTextEdit** for multi-line commit messages
+  - Action buttons: Commit, Refresh, Pull, Push
+  - Stage All / Unstage All buttons
+- **Key Features**:
+  - **Auto-refresh timer** (2 second interval)
+  - **git status --porcelain** for clean parsing
+  - **Double-click interaction** for staging/unstaging
+  - **Automatic git repository detection** (searches parent directories)
+  - **File status parsing** (M, A, D, R, C, U, ?)
+  - **Keyboard shortcut** (Ctrl+G) for quick access
+  - **Clean, minimal interface** (no verbose output)
+
+## Technical Implementation
+
+### Git Commands Used:
+- `git status --porcelain` - Get file status in machine-readable format
+- `git add <file>` - Stage individual files
+- `git add -A` - Stage all changes
+- `git reset HEAD <file>` - Unstage individual files
+- `git reset HEAD` - Unstage all files
+- `git commit -m "message"` - Commit staged changes
+- `git push` - Push to remote
+- `git pull` - Pull from remote
+
+### Status Code Parsing:
+```
+XY filename
+X = index status (staged)
+Y = working tree status (unstaged)
+
+M = Modified
+A = Added
+D = Deleted
+R = Renamed
+C = Copied
+? = Untracked
+```

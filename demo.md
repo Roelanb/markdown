@@ -4,6 +4,8 @@ Welcome to the **Markdown Editor**! This file demonstrates all the supported fea
 
 ## Basic Syntax
 
+hello
+
 ### Text Formatting
 
 - **Bold text** using `**bold**`
