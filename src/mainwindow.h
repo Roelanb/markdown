@@ -11,6 +11,7 @@
 class MarkdownEditor;
 class PreviewWidget;
 class FileBrowser;
+class GitWidget;
 
 class MainWindow : public QMainWindow
 {
@@ -27,6 +28,7 @@ private slots:
     void saveFileAs();
     void toggleFullScreen();
     void toggleSplitEditor();
+    void toggleGitPanel();
     void onFileSelected(const QString &filePath);
 
 private:
@@ -46,6 +48,7 @@ private:
     MarkdownEditor *editor;
     MarkdownEditor *editor2;  // Second editor for split view
     PreviewWidget *preview;
+    GitWidget *gitWidget;
 
     // State
     bool splitEditorEnabled;
@@ -64,6 +67,7 @@ private:
     QAction *fullScreenAction;
     QAction *exitFullScreenAction;
     QAction *splitEditorAction;
+    QAction *gitPanelAction;
 
     QString currentFilePath;
 };

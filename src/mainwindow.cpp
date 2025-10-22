@@ -2,6 +2,7 @@
 #include "markdowneditor.h"
 #include "previewwidget.h"
 #include "filebrowser.h"
+#include "gitwidget.h"
 
 #include <QMenuBar>
 #include <QToolBar>
@@ -63,6 +64,10 @@ MainWindow::MainWindow(QWidget *parent)
     // Create preview
     preview = new PreviewWidget(this);
 
+    // Create git widget
+    gitWidget = new GitWidget(this);
+    gitWidget->setVisible(false);  // Hidden by default
+
     // Connect scroll synchronization
     connect(editor, &MarkdownEditor::scrollPercentageChanged, 
             preview, &PreviewWidget::scrollToPercentage);
@@ -72,11 +77,13 @@ MainWindow::MainWindow(QWidget *parent)
 
     mainSplitter->addWidget(fileBrowser);
     mainSplitter->addWidget(editorSplitter);
+    mainSplitter->addWidget(gitWidget);
     mainSplitter->setStretchFactor(0, 0);
     mainSplitter->setStretchFactor(1, 1);
+    mainSplitter->setStretchFactor(2, 0);
 
     // Set sizes
-    mainSplitter->setSizes(QList<int>() << 250 << 1150);
+    mainSplitter->setSizes(QList<int>() << 250 << 1150 << 0);
 
     setCentralWidget(mainSplitter);
 
@@ -152,6 +159,11 @@ void MainWindow::createActions()
     splitEditorAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Backslash));
     splitEditorAction->setCheckable(true);
     connect(splitEditorAction, &QAction::triggered, this, &MainWindow::toggleSplitEditor);
+
+    gitPanelAction = new QAction(tr("&Git Panel"), this);
+    gitPanelAction->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_G));
+    gitPanelAction->setCheckable(true);
+    connect(gitPanelAction, &QAction::triggered, this, &MainWindow::toggleGitPanel);
 }
 
 void MainWindow::createMenuBar()
@@ -180,6 +192,7 @@ void MainWindow::createMenuBar()
     // View menu
     QMenu *viewMenu = menuBar->addMenu(tr("&View"));
     viewMenu->addAction(splitEditorAction);
+    viewMenu->addAction(gitPanelAction);
     viewMenu->addSeparator();
     viewMenu->addAction(fullScreenAction);
     viewMenu->addAction(exitFullScreenAction);
@@ -202,6 +215,7 @@ void MainWindow::createToolBar()
     toolBar->addAction(pasteAction);
     toolBar->addSeparator();
     toolBar->addAction(splitEditorAction);
+    toolBar->addAction(gitPanelAction);
     toolBar->addAction(fullScreenAction);
 }
 
@@ -415,4 +429,32 @@ void MainWindow::syncEditors()
     }
 
     syncing = false;
+}
+
+void MainWindow::toggleGitPanel()
+{
+    bool isVisible = gitWidget->isVisible();
+    gitWidget->setVisible(!isVisible);
+    gitPanelAction->setChecked(!isVisible);
+    
+    // Update splitter sizes
+    QList<int> sizes = mainSplitter->sizes();
+    if (!isVisible) {
+        // Show git panel - give it 300px width
+        if (sizes.size() >= 3) {
+            int totalWidth = mainSplitter->width();
+            mainSplitter->setSizes(QList<int>() << 250 << totalWidth - 550 << 300);
+        }
+        
+        // Set working directory if a file is open
+        if (!currentFilePath.isEmpty()) {
+            gitWidget->setWorkingDirectory(currentFilePath);
+        }
+    } else {
+        // Hide git panel
+        if (sizes.size() >= 3) {
+            int totalWidth = mainSplitter->width();
+            mainSplitter->setSizes(QList<int>() << 250 << totalWidth - 250 << 0);
+        }
+    }
 }

@@ -20,6 +20,11 @@ A feature-rich, cross-platform markdown editor built with C++ and Qt6.
   - Kotlin, Scala, Swift
   - SQL, HTML, XML, CSS, JSON
   - Shell, Makefile, CMake, Gradle
+- **Git Integration**: Built-in git operations panel
+  - Git status, diff, add, commit, push, pull
+  - File selection for staging
+  - Real-time command output
+  - Keyboard shortcut (Ctrl+G)
 - **Menu Bar & Toolbar**: Quick access to common operations
 - **Full Screen Mode**: Distraction-free editing experience
 
@@ -282,6 +287,11 @@ Examples:
   - Enables side-by-side editing of the same document
   - Both editors are synchronized - changes in one appear in the other
   - Layout: Editor 1 | Editor 2 | Preview
+- **View → Git Panel**: Toggle git operations panel (Ctrl+G)
+  - Shows changed files in the repository
+  - Supports git status, diff, add, commit, push, pull
+  - Select files to stage, enter commit message, and commit
+  - Real-time command output display
 - **View → Full Screen**: Enter full screen mode
 - **View → Exit Full Screen**: Exit full screen mode (or press Esc)
 

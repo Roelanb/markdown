@@ -22,6 +22,7 @@ set(SOURCES
     src/previewwidget.cpp
     src/codehighlighter.cpp
     src/emojisupport.cpp
+    src/gitwidget.cpp
 )
 
 set(HEADERS
@@ -32,6 +33,7 @@ set(HEADERS
     src/previewwidget.h
     src/codehighlighter.h
     src/emojisupport.h
+    src/gitwidget.h
 )
 
 # Add executable

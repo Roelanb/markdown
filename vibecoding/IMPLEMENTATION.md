@@ -66,6 +66,19 @@ A complete, feature-rich markdown editor built with C++ and Qt6, supporting all 
    - Converts emoji shortcodes to Unicode characters
    - 150+ emoji mappings (e.g., `:smile:` → 😄)
 
+8. **GitWidget** (`src/gitwidget.h/cpp`)
+   - Integrated git operations panel
+   - Supports common git commands:
+     - Git status (shows changed files)
+     - Git diff (shows file differences)
+     - Git add (stage selected files)
+     - Git commit (commit with message)
+     - Git push (push to remote)
+     - Git pull (pull from remote)
+   - File list with multi-selection
+   - Real-time command output display
+   - Automatic repository detection
+
 ## Features Implemented
 
 ### ✅ Core Features
@@ -145,6 +158,13 @@ Supports all requested languages:
 - [x] Folder opening functionality
 - [x] Full screen mode
 - [x] Split editor mode with synchronized editing (Ctrl+\ or Cmd+\)
+- [x] Git integration panel (Ctrl+G)
+  - [x] Git status
+  - [x] Git diff
+  - [x] Git add
+  - [x] Git commit
+  - [x] Git push
+  - [x] Git pull
 - [x] Keyboard shortcuts
 - [x] Responsive UI with resizable panes
 
@@ -187,7 +207,8 @@ markdown/
     ├── previewwidget.h/cpp          # Preview pane
     ├── filebrowser.h/cpp            # File browser
     ├── codehighlighter.h/cpp        # Code syntax highlighting
-    └── emojisupport.h/cpp           # Emoji support
+    ├── emojisupport.h/cpp           # Emoji support
+    └── gitwidget.h/cpp              # Git integration panel
 ```
 
 ## Dependencies
@@ -268,9 +289,10 @@ Possible improvements:
 - Markdown extensions (math equations, diagrams)
 - Vim keybindings
 - Tab support for multiple files
-- Git integration
 - Diff view in split editor mode
 - Independent scrolling in split editors
+- Git branch management
+- Git merge conflict resolution
 
 ## Compliance with Requirements
 
@@ -291,7 +313,8 @@ All features from markdown-features.md have been implemented:
 ✅ Syntax highlighting for all requested languages
 ✅ Emoji support
 ✅ Folder opening functionality
+✅ Git integration (status, diff, add, commit, push, pull)
 
 ## Conclusion
 
-This is a complete, production-ready markdown editor with all requested features. The codebase is well-organized, documented, and ready to build on any platform.
+This is a complete, production-ready markdown editor with all requested features including git integration. The codebase is well-organized, documented, and ready to build on any platform.

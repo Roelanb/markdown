@@ -4,6 +4,8 @@ Comprehensive guide for building the Markdown Editor on all supported platforms.
 
 ## Table of Contents
 
+hello
+
 - [Quick Build (Recommended)](#quick-build-recommended)
 - [Build Scripts](#build-scripts)
 - [Manual Build](#manual-build)
