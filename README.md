@@ -264,16 +264,20 @@ Examples:
 
 ## Usage
 
-### Opening Files
+### Creating and Opening Files
 
-- **File → Open**: Open a single markdown file
+- **File → New**: Create a new empty markdown file (Ctrl+N)
+- **File → Open**: Open a single markdown file (Ctrl+O)
 - **File → Open Folder**: Open a folder to browse multiple markdown files
 - **File Browser**: Click on files in the left sidebar to open them
 
-### Saving Files
+### Saving and Closing
 
-- **File → Save**: Save the current file
-- **File → Save As**: Save to a new file
+- **File → Save**: Save the current file (Ctrl+S)
+- **File → Save As**: Save to a new file (Ctrl+Shift+S)
+- **File → Quit**: Exit the application (Ctrl+Q)
+  - Warns you if there are unsaved changes
+  - Options: Save, Discard, or Cancel
 
 ### Editing
 

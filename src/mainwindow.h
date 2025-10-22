@@ -21,7 +21,11 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+protected:
+    void closeEvent(QCloseEvent *event) override;
+
 private slots:
+    void newFile();
     void openFile();
     void openFolder();
     void saveFile();
@@ -30,6 +34,8 @@ private slots:
     void toggleSplitEditor();
     void toggleGitPanel();
     void onFileSelected(const QString &filePath);
+    void documentModified();
+    void quitApplication();
 
 private:
     void createMenuBar();
@@ -39,6 +45,7 @@ private:
     bool saveFileToPath(const QString &filePath);
     void updateEditorLayout();
     void syncEditors();
+    void updateWindowTitle();
 
     // Widgets
     QSplitter *mainSplitter;
@@ -52,8 +59,10 @@ private:
 
     // State
     bool splitEditorEnabled;
+    bool isModified;
 
     // Actions
+    QAction *newAction;
     QAction *openAction;
     QAction *openFolderAction;
     QAction *saveAction;
@@ -68,6 +77,7 @@ private:
     QAction *exitFullScreenAction;
     QAction *splitEditorAction;
     QAction *gitPanelAction;
+    QAction *quitAction;
 
     QString currentFilePath;
 };

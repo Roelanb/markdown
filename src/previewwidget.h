@@ -23,6 +23,13 @@ private:
     QString processTables(const QString &text);
     QString convertTableToHtml(const QStringList &tableLines);
     QString processYamlFrontMatter(const QString &text);
+    QString escapeHtmlInText(const QString &text);
+    QString restoreEscapedHtml(const QString &text);
+    QString processBackslashEscapes(const QString &text);
+    QString processAutolinks(const QString &text);
+    QString processBlockquotes(const QString &text);
+    QString processLists(const QString &text);
+    QString processInlineCode(const QString &text);
 
     QTextBrowser *webView;
 };

@@ -51,6 +51,11 @@ void FileBrowser::setRootPath(const QString &path)
     treeView->setRootIndex(fileSystemModel->index(path));
 }
 
+QString FileBrowser::getRootPath() const
+{
+    return fileSystemModel->rootPath();
+}
+
 void FileBrowser::onItemClicked(const QModelIndex &index)
 {
     QString filePath = fileSystemModel->filePath(index);

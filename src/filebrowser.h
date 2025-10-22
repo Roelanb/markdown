@@ -14,6 +14,7 @@ public:
     ~FileBrowser();
 
     void setRootPath(const QString &path);
+    QString getRootPath() const;
 
 signals:
     void fileSelected(const QString &filePath);
