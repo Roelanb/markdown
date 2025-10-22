@@ -2,7 +2,7 @@
 #define PREVIEWWIDGET_H
 
 #include <QWidget>
-#include <QWebEngineView>
+#include <QTextBrowser>
 
 class PreviewWidget : public QWidget
 {
@@ -24,7 +24,7 @@ private:
     QString convertTableToHtml(const QStringList &tableLines);
     QString processYamlFrontMatter(const QString &text);
 
-    QWebEngineView *webView;
+    QTextBrowser *webView;
 };
 
 #endif // PREVIEWWIDGET_H

@@ -4,7 +4,7 @@
 param(
     [string]$Action = "build",
     [string]$QtPath = "",
-    [string]$Generator = "Visual Studio 16 2019",
+    [string]$Generator = "Visual Studio 17 2022",
     [string]$Config = "Release"
 )
 

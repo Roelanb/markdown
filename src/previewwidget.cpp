@@ -5,6 +5,7 @@
 #include <QVBoxLayout>
 #include <QRegularExpression>
 #include <QTimer>
+#include <QScrollBar>
 
 PreviewWidget::PreviewWidget(QWidget *parent)
     : QWidget(parent)
@@ -12,7 +13,8 @@ PreviewWidget::PreviewWidget(QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    webView = new QWebEngineView(this);
+    webView = new QTextBrowser(this);
+    webView->setOpenExternalLinks(true);
     layout->addWidget(webView);
 
     setLayout(layout);
@@ -25,33 +27,30 @@ PreviewWidget::~PreviewWidget()
 void PreviewWidget::updatePreview(const QString &markdown)
 {
     // Save current scroll position before updating
-    QString getScrollScript = R"(
-        (function() {
-            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            var scrollHeight = document.body.scrollHeight;
-            return scrollHeight > 0 ? scrollTop / scrollHeight : 0;
-        })();
-    )";
+    QScrollBar *vScrollBar = webView->verticalScrollBar();
+    int scrollPos = vScrollBar ? vScrollBar->value() : 0;
     
-    webView->page()->runJavaScript(getScrollScript, [this, markdown](const QVariant &result) {
-        double scrollPercentage = result.toDouble();
-        
-        // Update the HTML content
-        QString html = markdownToHtml(markdown);
-        webView->setHtml(html);
-        
-        // Restore scroll position after a short delay to allow content to load
-        QTimer::singleShot(10, [this, scrollPercentage]() {
-            scrollToPercentage(scrollPercentage);
-        });
+    // Update the HTML content
+    QString html = markdownToHtml(markdown);
+    webView->setHtml(html);
+    
+    // Restore scroll position after a short delay to allow content to load
+    QTimer::singleShot(10, [this, scrollPos]() {
+        QScrollBar *vScrollBar = webView->verticalScrollBar();
+        if (vScrollBar) {
+            vScrollBar->setValue(scrollPos);
+        }
     });
 }
 
 void PreviewWidget::scrollToPercentage(double percentage)
 {
-    // Use JavaScript to scroll the web view to the specified percentage
-    QString script = QString("window.scrollTo(0, document.body.scrollHeight * %1);").arg(percentage);
-    webView->page()->runJavaScript(script);
+    // Scroll the text browser to the specified percentage
+    QScrollBar *vScrollBar = webView->verticalScrollBar();
+    if (vScrollBar) {
+        int maxScroll = vScrollBar->maximum();
+        vScrollBar->setValue(static_cast<int>(maxScroll * percentage));
+    }
 }
 
 QString PreviewWidget::getStyleSheet()
