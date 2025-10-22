@@ -244,6 +244,10 @@ void MainWindow::newFile()
     
     // Reset current file path
     currentFilePath.clear();
+    editor->setCurrentFilePath("");
+    if (editor2) {
+        editor2->setCurrentFilePath("");
+    }
     
     // Reset modified flag
     isModified = false;
@@ -364,6 +368,12 @@ void MainWindow::loadFile(const QString &filePath)
 
     currentFilePath = filePath;
     
+    // Set the file path in the editor for relative path calculation
+    editor->setCurrentFilePath(filePath);
+    if (editor2) {
+        editor2->setCurrentFilePath(filePath);
+    }
+    
     // Reset modified flag when loading a file
     isModified = false;
     updateWindowTitle();
@@ -382,6 +392,12 @@ bool MainWindow::saveFileToPath(const QString &filePath)
     QTextStream out(&file);
     out << editor->toPlainText();
     file.close();
+
+    // Set the file path in the editor for relative path calculation
+    editor->setCurrentFilePath(filePath);
+    if (editor2) {
+        editor2->setCurrentFilePath(filePath);
+    }
 
     // Reset modified flag after successful save
     isModified = false;

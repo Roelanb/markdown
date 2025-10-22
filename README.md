@@ -9,6 +9,7 @@ A feature-rich, cross-platform markdown editor built with C++ and Qt6.
 - **Live Preview**: Real-time HTML preview of your markdown
 - **Synchronized Scrolling**: Editor and preview scroll together
 - **File Browser**: Browse and open markdown files from a sidebar
+- **Image Insertion**: Drag and drop images from the file browser to automatically insert them with relative paths
 - **Full Markdown Support**:
   - Basic syntax (headings, bold, italic, links, images, lists, etc.)
   - Extended syntax (tables, code blocks, strikethrough, etc.)
@@ -284,6 +285,15 @@ Examples:
 - **Edit → Undo/Redo**: Standard undo/redo operations
 - **Edit → Cut/Copy/Paste**: Standard clipboard operations
 - **Edit → Select All**: Select all text
+
+### Inserting Images
+
+- **Drag and Drop**: Drag image files from the file browser and drop them into the editor
+  - Automatically inserts markdown image syntax: `![alt-text](path/to/image.png)`
+  - Uses relative paths when the markdown file is saved
+  - Uses absolute paths for unsaved files
+  - Supported formats: PNG, JPG, JPEG, GIF, BMP, SVG, WebP, ICO
+  - The alt text is automatically set to the image filename
 
 ### View
 

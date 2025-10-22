@@ -13,9 +13,10 @@ FileBrowser::FileBrowser(QWidget *parent)
     fileSystemModel = new QFileSystemModel(this);
     fileSystemModel->setRootPath(QDir::currentPath());
 
-    // Set filters to show only markdown files and directories
+    // Set filters to show markdown and image files
     QStringList filters;
-    filters << "*.md" << "*.markdown";
+    filters << "*.md" << "*.markdown" << "*.png" << "*.jpg" << "*.jpeg" 
+            << "*.gif" << "*.bmp" << "*.svg" << "*.webp" << "*.ico";
     fileSystemModel->setNameFilters(filters);
     fileSystemModel->setNameFilterDisables(false);
 
@@ -33,6 +34,10 @@ FileBrowser::FileBrowser(QWidget *parent)
     treeView->setAnimated(true);
     treeView->setIndentation(20);
     treeView->setSortingEnabled(true);
+    
+    // Enable drag and drop
+    treeView->setDragEnabled(true);
+    treeView->setDragDropMode(QAbstractItemView::DragOnly);
 
     // Connect signals
     connect(treeView, &QTreeView::clicked, this, &FileBrowser::onItemClicked);

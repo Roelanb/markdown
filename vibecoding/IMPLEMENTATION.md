@@ -19,6 +19,8 @@ A complete, feature-rich markdown editor built with C++ and Qt6, supporting all 
    - Custom QPlainTextEdit widget
    - Provides the text editing area
    - Integrates with MarkdownHighlighter for syntax highlighting
+   - Supports drag-and-drop for image files
+   - Automatically calculates relative paths for images
 
 3. **MarkdownHighlighter** (`src/markdownhighlighter.h/cpp`)
    - QSyntaxHighlighter implementation
@@ -48,8 +50,9 @@ A complete, feature-rich markdown editor built with C++ and Qt6, supporting all 
 5. **FileBrowser** (`src/filebrowser.h/cpp`)
    - QTreeView-based file browser
    - Shows directory structure
-   - Filters to show only markdown files
+   - Filters to show markdown and image files
    - Allows quick navigation between files
+   - Supports drag-and-drop to editor
 
 6. **CodeHighlighter** (`src/codehighlighter.h/cpp`)
    - Syntax highlighting for code blocks
@@ -165,6 +168,10 @@ Supports all requested languages:
   - [x] Git commit
   - [x] Git push
   - [x] Git pull
+- [x] Image insertion via drag-and-drop
+  - [x] Drag images from file browser to editor
+  - [x] Automatic relative path calculation
+  - [x] Supports PNG, JPG, JPEG, GIF, BMP, SVG, WebP, ICO
 - [x] Keyboard shortcuts
 - [x] Responsive UI with resizable panes
 
@@ -256,6 +263,17 @@ markdown/
 5. Both editors are synchronized - typing in one updates the other
 6. Cursor position is preserved during synchronization
 7. Preview updates from either editor's content
+
+### Image Insertion via Drag-and-Drop
+
+1. User drags an image file from the file browser
+2. MarkdownEditor detects the drag event and checks if it's an image file
+3. When dropped, the editor determines the exact text position using `cursorForPosition()`
+4. The editor calculates the relative path from the current markdown file to the image
+5. Markdown image syntax is automatically inserted at the drop location: `![alt-text](relative/path/to/image.png)`
+6. The alt text is set to the image filename (without extension)
+7. If the markdown file hasn't been saved yet, an absolute path is used instead
+8. Preview automatically updates to show the inserted image
 
 ## Key Design Decisions
 
