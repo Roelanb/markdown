@@ -250,14 +250,40 @@ function Invoke-Build {
 function Start-Application {
     Write-Header "Running Application"
 
-    $exePath = Join-Path $BuildDir "$Config\MarkdownEditor.exe"
+    # Try different possible locations for the executable
+    # Visual Studio generators use Config subdirectory, MinGW doesn't
+    $possiblePaths = @(
+        (Join-Path $BuildDir "MarkdownEditor.exe"),
+        (Join-Path $BuildDir "$Config\MarkdownEditor.exe")
+    )
 
-    if (Test-Path $exePath) {
+    $exePath = $null
+    foreach ($path in $possiblePaths) {
+        if (Test-Path $path) {
+            $exePath = $path
+            break
+        }
+    }
+
+    if ($null -ne $exePath) {
         Write-Success "Starting Markdown Editor..."
+        
+        # Add Qt bin directory to PATH for this session
+        if ($script:QtPath -ne "" -and $null -ne $script:QtPath) {
+            $qtBinPath = Join-Path $script:QtPath "bin"
+            if (Test-Path $qtBinPath) {
+                $env:PATH = "$qtBinPath;$env:PATH"
+                Write-Info "Added Qt bin directory to PATH: $qtBinPath"
+            }
+        }
+        
         & $exePath
     } else {
-        Write-Error-Custom "Executable not found at: $exePath"
-        Write-Warning-Custom "Build may have failed or configuration is incorrect"
+        Write-Error-Custom "Executable not found in build directory"
+        Write-Warning-Custom "Searched locations:"
+        foreach ($path in $possiblePaths) {
+            Write-Host "  - $path"
+        }
         exit 1
     }
 }
@@ -320,8 +346,21 @@ function Main {
         }
 
         "run" {
-            $exePath = Join-Path $BuildDir "$Config\MarkdownEditor.exe"
-            if (-not (Test-Path $exePath)) {
+            # Check if executable exists in any of the possible locations
+            $possiblePaths = @(
+                (Join-Path $BuildDir "MarkdownEditor.exe"),
+                (Join-Path $BuildDir "$Config\MarkdownEditor.exe")
+            )
+            
+            $exeExists = $false
+            foreach ($path in $possiblePaths) {
+                if (Test-Path $path) {
+                    $exeExists = $true
+                    break
+                }
+            }
+            
+            if (-not $exeExists) {
                 Write-Warning-Custom "Executable not found. Building first..."
                 Test-Dependencies
                 Invoke-Configure
